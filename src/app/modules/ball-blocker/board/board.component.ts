@@ -1,5 +1,6 @@
 import * as p5 from 'p5';
 import { Ball } from 'src/app/p5Utilities/classes/ball';
+import { Reflector } from 'src/app/p5Utilities/classes/reflector';
 
 import { Component, OnInit } from '@angular/core';
 
@@ -9,6 +10,11 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./board.component.scss']
 })
 export class BoardComponent implements OnInit {
+
+  canvasWidth = 550;
+  canvasHeight = 700;
+
+  reflectors: Reflector[] = [];
 
   board: p5;
   balls: Ball[] = [];
@@ -28,25 +34,40 @@ export class BoardComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+
     const sketch = s => {
       let canvas;
 
       s.setup = () => {
-        canvas = s.createCanvas(350, 500);
+        canvas = s.createCanvas(this.canvasWidth, this.canvasHeight);
         canvas.parent('game-board');
         this.launchPos = this.board.createVector(this.board.width / 2, this.board.height - this.conf.diameter / 2);
+        for (let i = 0; i < 6; i++) {
+          const refl = new Reflector(this.board.random(50, 70), this.board.random(50, 70));
+          refl.pos = this.board.createVector(this.board.random(this.canvasWidth), this.board.random(this.canvasHeight));
+          refl.display(s);
+          this.reflectors.push(refl);
+        }
       };
 
       s.draw = () => {
         s.background(0);
         this.balls.forEach((ball, i) => {
+
           if (ball.config.color.a > 0) {
             ball.display(s);
             ball.move(s);
+            this.reflectors.forEach(refl => {
+              ball.hitReflector(refl);
+            });
+
             ball.hitBottomBorder();
           } else {
             this.balls.splice(i, 1);
           }
+        });
+        this.reflectors.forEach(refl => {
+          refl.display(s);
         });
       };
 
@@ -85,5 +106,7 @@ export class BoardComponent implements OnInit {
     };
 
     this.board = new p5(sketch);
+    
+    
   }
 }

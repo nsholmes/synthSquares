@@ -1,4 +1,5 @@
 import { ICircle } from '../models/shapes';
+import { Reflector } from './reflector';
 
 export class Ball {
     pos;
@@ -6,6 +7,7 @@ export class Ball {
     config: ICircle;
     radius: number;
     bottomHitCount = 0;
+    didHitReflector = false;
 
     constructor(configuration?: ICircle) {
         this.config = { ...configuration };
@@ -19,12 +21,12 @@ export class Ball {
 
         // hits bottom border
         if (this.pos.y > sketch.height - this.radius) {
-            this.bottomHitCount++;
+            this.bottomHitCount += 1;
             this.vel.y *= -1;
         }
 
         if (this.pos.x <= this.radius || this.pos.x >= sketch.width - this.radius) {
-            this.vel.x *= -1;
+            this.vel.x = this.vel.x *= -1;
         }
         this.pos.add(this.vel);
     }
@@ -54,6 +56,27 @@ export class Ball {
         }
         if (this.bottomHitCount > 6) {
             this.config.color = { r: 0, g: 0, b: 0, a: 0 };
+        }
+    }
+
+    hitReflector(other: Reflector): void {
+        const { x, y } = this.pos;
+        // For a rect
+
+        // check left and right Edge
+        if (x + this.radius + this.vel.x > other.pos.x &&
+            x + this.vel.x < other.pos.x + other.width &&
+            y + this.radius > other.pos.y &&
+            y < other.pos.y + other.height) {
+            this.vel.x *= -1;
+        }
+
+        // check top and bottom edge
+        if (x + this.radius > other.pos.x &&
+            x < other.pos.x + other.width &&
+            y + this.radius + this.vel.y > other.pos.y &&
+            y + this.vel.y < other.pos.y + other.height) {
+            this.vel.y *= -1;
         }
     }
 }
