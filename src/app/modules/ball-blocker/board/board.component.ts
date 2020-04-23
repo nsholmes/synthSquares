@@ -18,7 +18,7 @@ export class BoardComponent implements OnInit {
 
   levels: BoardLevels = new BoardLevels();
 
-  reflectors: Reflector[] = this.levels.level2();
+  reflectors: Reflector[] = this.levels.level3();
 
   board: p5;
   balls: Ball[] = [];

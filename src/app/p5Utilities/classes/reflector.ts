@@ -6,7 +6,7 @@ export class Reflector {
     height: number;
     timesHit = 0;
     private fillColor = '#fff';
-    private fillColorArr = ['#fff', '#FF6F61', '#DD4124', '#88B04B', '#92A8D1']
+    private fillColorArr = ['#fff', '#FF6F61', '#DD4124', '#88B04B', '#92A8D1'];
 
     constructor(w: number, h: number) {
         this.height = h;

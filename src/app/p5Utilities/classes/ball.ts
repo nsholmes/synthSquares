@@ -39,23 +39,27 @@ export class Ball {
     }
 
     hitBottomBorder() {
-        if (this.bottomHitCount > 1) {
+        if (this.bottomHitCount === 1) {
             this.config.color = { r: 255, g: 0, b: 0, a: 255 };
         }
-        if (this.bottomHitCount > 2) {
+        if (this.bottomHitCount === 2) {
             this.config.color = { r: 155, g: 100, b: 0, a: 255 };
         }
-        if (this.bottomHitCount > 3) {
+        if (this.bottomHitCount === 3) {
             this.config.color = { r: 55, g: 255, b: 0, a: 255 };
         }
-        if (this.bottomHitCount > 4) {
+        if (this.bottomHitCount === 4) {
             this.config.color = { r: 0, g: 255, b: 100, a: 255 };
         }
-        if (this.bottomHitCount > 5) {
+        if (this.bottomHitCount === 5) {
             this.config.color = { r: 0, g: 155, b: 200, a: 100 };
         }
-        if (this.bottomHitCount > 6) {
-            this.config.color = { r: 0, g: 0, b: 0, a: 0 };
+        if (this.bottomHitCount === 6) {
+            this.config.color = { r: 150, g: 150, b: 150, a: 50 };
+        }
+        if (this.bottomHitCount === 7) {
+            this.config.color = { r: 255, g: 255, b: 255, a: 255 };
+            this.bottomHitCount = 0;
         }
     }
 
