@@ -59,8 +59,9 @@ export class Ball {
         }
     }
 
-    hitReflector(other: Reflector): void {
+    hitReflector(other: Reflector): boolean {
         const { x, y } = this.pos;
+        let hit = false;
         // For a rect
 
         // check left and right Edge
@@ -69,6 +70,7 @@ export class Ball {
             y + this.radius > other.pos.y &&
             y < other.pos.y + other.height) {
             this.vel.x *= -1;
+            hit = true;
         }
 
         // check top and bottom edge
@@ -77,6 +79,8 @@ export class Ball {
             y + this.radius + this.vel.y > other.pos.y &&
             y + this.vel.y < other.pos.y + other.height) {
             this.vel.y *= -1;
+            hit = true;
         }
+        return hit;
     }
 }
