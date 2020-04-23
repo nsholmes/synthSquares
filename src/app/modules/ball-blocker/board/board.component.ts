@@ -12,13 +12,13 @@ import { BoardLevels } from './board.levels';
   styleUrls: ['./board.component.scss']
 })
 export class BoardComponent implements OnInit {
-
+  private multiplier = 30;
   canvasWidth = 800;
   canvasHeight = 500;
 
   levels: BoardLevels = new BoardLevels();
 
-  reflectors: Reflector[] = this.levels.level3();
+  reflectors: Reflector[] = this.levels.level1();
 
   board: p5;
   balls: Ball[] = [];
@@ -85,7 +85,7 @@ export class BoardComponent implements OnInit {
         const ball = new Ball(this.conf);
         ball.pos = this.board.createVector(this.launchPos.x, this.launchPos.y);
         mouseV.normalize();
-        mouseV.mult(15);
+        mouseV.mult(this.multiplier);
 
         ball.vel = this.board.createVector(mouseV.x, mouseV.y);
 
