@@ -1,1 +1,15 @@
 <div id="game-board"></div>
+<div>
+    <button (click)="clearClicked($event)">Clear</button>
+    <button (click)="stopClicked($event)">Stop</button>
+    <button (click)="playClicked($event)">Play</button>
+    <button (click)="restartClicked($event)">restart</button>
+  </div>
+  <div>
+    <label for="red">Red: </label>
+    <input type="number" (change)="setRed($event)" id="red" name="red" value="225" max="225" min="0" step="15" />
+    <label for="green">Green: </label>
+    <input type="number" (change)="setGreen($event)" id="green" value="225" max="225" min="0"  name="green" step="15" />
+    <label for="blue">Blue: </label>
+    <input type="number" (change)="setBlue($event)" id="blue" name="blue" value="225" max="225" min="0" step="15" />
+  </div>

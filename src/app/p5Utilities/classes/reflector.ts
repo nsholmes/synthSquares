@@ -7,8 +7,8 @@ export class Reflector {
     private audioCtx = new this.AudioContext();
     private gainNode = this.audioCtx.createGain();
     private hitCount = 0;
+    active = false;
 
-    p5Ref = new p5(() => { });
     pos: p5.Vector;
 
     width: number;

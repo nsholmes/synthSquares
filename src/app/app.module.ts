@@ -12,7 +12,7 @@ import { BallBlockerModule } from './modules/ball-blocker/ball-blocker.module';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    BallBlockerModule
+    BallBlockerModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

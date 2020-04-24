@@ -1,6 +1,7 @@
 import * as p5 from 'p5';
 import { Ball } from 'src/app/p5Utilities/classes/ball';
-import { Reflector } from 'src/app/p5Utilities/classes/reflector';
+import { Grid } from 'src/app/p5Utilities/classes/grid';
+import { IGrid } from 'src/app/p5Utilities/models/grid.model';
 
 import { Component, OnInit } from '@angular/core';
 
@@ -14,11 +15,21 @@ import { BoardLevels } from './board.levels';
 export class BoardComponent implements OnInit {
   private multiplier = 30;
   canvasWidth = 800;
-  canvasHeight = 500;
+  canvasHeight = 600;
 
   levels: BoardLevels = new BoardLevels();
 
-  reflectors: Reflector[] = this.levels.level1();
+  // reflectors: Reflector[] = this.levels.level1();
+
+  gridConfig: IGrid = {
+    rowCount: 10,
+    colCount: 10,
+    cellWidth: 50,
+    cellHeight: 50,
+    cellPadding: 5,
+    cellBorderWidth: 2
+  };
+  grid: Grid = new Grid(this.gridConfig);
 
   board: p5;
   balls: Ball[] = [];
@@ -46,33 +57,33 @@ export class BoardComponent implements OnInit {
         canvas = s.createCanvas(this.canvasWidth, this.canvasHeight);
         canvas.parent('game-board');
         this.launchPos = this.board.createVector(this.board.width / 2, this.board.height - this.conf.diameter / 2);
-        for (const bumper of this.reflectors) {
-          bumper.display(s);
-        }
+        this.grid.display(s);
+        // this.board.noLoop();
       };
 
       s.draw = () => {
+        
         s.background(0);
+        for (const bumper of this.grid.reflectors) {
+          bumper.display(s);
+        }
         this.balls.forEach((ball, i) => {
-
           if (ball.config.color.a > 0) {
             ball.display(s);
             ball.move(s);
-            this.reflectors.forEach(refl => {
-              const hit = ball.hitReflector(refl);
-              if (hit) {
-                refl.intersected();
+            this.grid.reflectors.forEach(refl => {
+              if (refl.active) {
+                const hit = ball.hitReflector(refl);
+                if (hit) {
+                  refl.intersected();
+                }
               }
-
             });
 
             ball.hitBottomBorder();
           } else {
             this.balls.splice(i, 1);
           }
-        });
-        this.reflectors.forEach(refl => {
-          refl.display(s);
         });
       };
 
@@ -111,7 +122,21 @@ export class BoardComponent implements OnInit {
     };
 
     this.board = new p5(sketch);
+  }
 
+  clearClicked(ev: MouseEvent) {
+    console.log(ev);
+  }
 
+  stopClicked(ev: MouseEvent) {
+    console.log(ev);
+  }
+
+  playClicked(ev: MouseEvent) {
+    console.log(ev);
+  }
+
+  restartClicked(ev: MouseEvent) {
+    console.log(ev);
   }
 }
